@@ -3,303 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment Submission System</title>
+    <title>Diyora's Assignment Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
             background: linear-gradient(135deg, #8A2BE2, #4169E1, #FF69B4);
+            color: white;
             text-align: center;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
+        }
+        
+        .navbar {
+            display: flex;
             justify-content: center;
-            min-height: 100vh;
-            color: white;
+            align-items: center;
             padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+        
+        .navbar h1 {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        
         .container {
-            max-width: 600px;
-            width: 100%;
+            max-width: 900px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+        
+        .card {
             background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
             border-radius: 15px;
+            overflow: hidden;
             box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
-            color: black;
-            margin-bottom: 20px;
+            transition: transform 0.3s ease;
         }
-        h2 {
-            color: #6A0DAD;
-            margin-top: 0;
+        
+        .card:hover {
+            transform: translateY(-5px);
         }
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            text-align: left;
-            font-weight: bold;
+        
+        .card-header {
+            background: linear-gradient(135deg, #9370DB, #8A2BE2);
+            color: white;
+            padding: 15px 20px;
+            font-size: 20px;
+            font-weight: 600;
         }
-        input[type="text"], input[type="date"], input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
+        
+        .card-body {
+            padding: 25px;
+            color: #333;
         }
-        .button {
+        
+        /* Assignment Section Styles */
+        .assignment-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             margin-top: 15px;
+        }
+        
+        .assignment-item {
+            background: rgba(147, 112, 219, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        
+        .assignment-item:hover {
+            border-color: #9370DB;
+            background: rgba(147, 112, 219, 0.2);
+        }
+        
+        .assignment-item h3 {
+            margin-bottom: 10px;
+            color: #6A0DAD;
+            font-size: 16px;
+        }
+        
+        .assignment-item p {
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        
+        .view-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #9370DB, #8A2BE2);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            align-self: flex-end;
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #8A2BE2, #6A0DAD);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .main-button {
             display: inline-block;
             padding: 12px 25px;
-            background: linear-gradient(135deg, #9370DB, #8A2BE2);
+            background: linear-gradient(135deg, #FF69B4, #DA70D6);
             color: white;
             text-decoration: none;
             font-size: 16px;
             border-radius: 8px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease-in-out;
-            cursor: pointer;
-            border: none;
+            margin: 15px auto 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .button:hover {
-            background: linear-gradient(135deg, #8A2BE2, #9370DB);
-            transform: translateY(-2px);
+        
+        .main-button:hover {
+            background: linear-gradient(135deg, #DA70D6, #FF69B4);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
         }
-        .nav-link {
-            margin-top: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-        .student-info {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 15px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background: #f4f4f4;
-            margin: 15px 0;
-            padding: 15px;
-            border-radius: 8px;
+        
+        /* About Section Styles */
+        .about-content {
             text-align: left;
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            line-height: 1.7;
         }
-        li:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        
+        .about-content p {
+            margin-bottom: 15px;
         }
-        .file-link {
-            display: inline-block;
+        
+        .interests {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(106, 13, 173, 0.1);
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        .interests ul {
+            list-style-position: inside;
             margin-top: 10px;
-            padding: 5px 15px;
-            background: #e0e0e0;
-            border-radius: 20px;
-            text-decoration: none;
-            color: #6A0DAD;
-            transition: background 0.3s ease;
+            padding-left: 10px;
         }
-        .file-link:hover {
-            background: #d0d0d0;
+        
+        .interests li {
+            margin-bottom: 5px;
         }
-        .empty-message {
-            font-style: italic;
-            color: #777;
-            padding: 20px;
-        }
-        .page {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-        }
-        .active {
-            display: block;
-        }
-        .tab-buttons {
-            margin-bottom: 20px;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            margin: 0 5px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        .tab-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        .tab-button.active {
-            background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            margin-top: auto;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <div class="tab-buttons">
-        <button class="tab-button active" onclick="showPage('submission-page')">Submit Assignment</button>
-        <button class="tab-button" onclick="showPage('assignments-page')">View Assignments</button>
+    <div class="navbar">
+        <h1>Diyora - Student No: 2417494</h1>
     </div>
-
-    <!-- Submission Page -->
-    <div id="submission-page" class="page active">
-        <div class="container">
-            <h2>Submit Your Assignment</h2>
-            <div class="student-info">
-                <p><strong>Name:</strong> Muslimova Diyorakhon</p>
-                <p><strong>Student ID:</strong> 2417494</p>
+    
+    <div class="container">
+        <!-- Assignments Section -->
+        <div class="card">
+            <div class="card-header">Submitted Assignments</div>
+            <div class="card-body">
+                <p>Access all my submitted academic work through the collection below:</p>
+                
+                <div class="assignment-list">
+                    <div class="assignment-item">
+                        <h3>Assignment Portfolio</h3>
+                        <p>Complete collection of all submitted work for this term organized by date and subject.</p>
+                        <a href="https://drive.google.com/drive/folders/1NiWr6MC1IktlPcXPBEHMnrXVkMK0a1eC?usp=drive_link" target="_blank" class="view-btn">View All</a>
+                    </div>
+                    
+                    <div class="assignment-item">
+                        <h3>Recent Submissions</h3>
+                        <p>Latest assignments and projects submitted within the past month.</p>
+                        <a href="https://drive.google.com/drive/folders/1NiWr6MC1IktlPcXPBEHMnrXVkMK0a1eC?usp=drive_link" target="_blank" class="view-btn">View Recent</a>
+                    </div>
+                    
+                    <div class="assignment-item">
+                        <h3>Project Work</h3>
+                        <p>Special projects and group assignments showcasing collaborative efforts.</p>
+                        <a href="https://drive.google.com/drive/folders/1NiWr6MC1IktlPcXPBEHMnrXVkMK0a1eC?usp=drive_link" target="_blank" class="view-btn">View Projects</a>
+                    </div>
+                </div>
+                
+                <a href="https://drive.google.com/drive/folders/1NiWr6MC1IktlPcXPBEHMnrXVkMK0a1eC?usp=drive_link" target="_blank" class="main-button">Access Complete Portfolio</a>
             </div>
-            <form id="assignmentForm">
-                <label for="title">Assignment Title:</label>
-                <input type="text" id="title" name="title" required>
-                
-                <label for="due-date">Due Date:</label>
-                <input type="date" id="due-date" name="due-date" required>
-                
-                <label for="file">Upload File:</label>
-                <input type="file" id="file" name="file" required>
-                
-                <button type="submit" class="button">Submit Assignment</button>
-            </form>
+        </div>
+        
+        <!-- About Me Section -->
+        <div class="card">
+            <div class="card-header">About Me</div>
+            <div class="card-body">
+                <div class="about-content">
+                    <p>My name is Diyora. I'm from Uzbekistan, specifically Tashkent City. I am currently 18 years old and studying at Dong-A University.</p>
+                    
+                    <div class="interests">
+                        <p><strong>My Interests:</strong></p>
+                        <ul>
+                            <li>Cooking and baking</li>
+                            <li>Music appreciation and composition</li>
+                            <li>Reading books, especially detective and mystery genres</li>
+                            <li>Playing musical instruments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- Assignments Page -->
-    <div id="assignments-page" class="page">
-        <div class="container">
-            <h2>Submitted Assignments</h2>
-            <div class="student-info">
-                <p><strong>Name:</strong> Muslimova Diyorakhon</p>
-                <p><strong>Student ID:</strong> 2417494</p>
-            </div>
-            <ul id="submissionList">
-                <li class="empty-message">No assignments submitted yet.</li>
-            </ul>
-        </div>
-    </div>
-
-    <script>
-        // Show the selected page
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show the selected page
-            document.getElementById(pageId).classList.add('active');
-            
-            // Update button states
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            
-            // Find the button that called this function and make it active
-            event.target.classList.add('active');
-            
-            // If showing assignments page, refresh the list
-            if (pageId === 'assignments-page') {
-                displaySubmissions();
-            }
-        }
-
-        // Handle form submission
-        document.getElementById("assignmentForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            
-            let title = document.getElementById("title").value;
-            let dueDate = document.getElementById("due-date").value;
-            let file = document.getElementById("file").files[0];
-            
-            if (title && dueDate && file) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    let fileData = {
-                        title: title,
-                        dueDate: dueDate,
-                        fileName: file.name,
-                        fileUrl: e.target.result
-                    };
-                    let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-                    submissions.push(fileData);
-                    localStorage.setItem("submissions", JSON.stringify(submissions));
-                    
-                    // Reset form
-                    document.getElementById("assignmentForm").reset();
-                    
-                    // Show success message
-                    alert("Assignment submitted successfully!");
-                    
-                    // Switch to assignments page
-                    showPage('assignments-page');
-                    document.querySelectorAll('.tab-button')[1].classList.add('active');
-                    document.querySelectorAll('.tab-button')[0].classList.remove('active');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Display submissions
-        function displaySubmissions() {
-            let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-            let submissionList = document.getElementById("submissionList");
-            submissionList.innerHTML = "";
-            
-            if (submissions.length === 0) {
-                submissionList.innerHTML = "<li class='empty-message'>No assignments submitted yet.</li>";
-            } else {
-                submissions.forEach((sub, index) => {
-                    let li = document.createElement("li");
-                    
-                    // Format the date to be more readable
-                    let formattedDate = new Date(sub.dueDate).toLocaleDateString('en-US', {
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric'
-                    });
-                    
-                    li.innerHTML = `
-                        <h3>${sub.title}</h3>
-                        <p><strong>Due Date:</strong> ${formattedDate}</p>
-                        <a href="${sub.fileUrl}" download="${sub.fileName}" class="file-link">
-                            <i class="fas fa-download"></i> ${sub.fileName}
-                        </a>
-                        <button onclick="deleteSubmission(${index})" class="button" style="background: #ff6b6b; padding: 5px 10px; margin-left: 10px;">Delete</button>
-                    `;
-                    submissionList.appendChild(li);
-                });
-            }
-        }
-        
-        // Delete a submission
-        function deleteSubmission(index) {
-            if (confirm("Are you sure you want to delete this assignment?")) {
-                let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-                submissions.splice(index, 1);
-                localStorage.setItem("submissions", JSON.stringify(submissions));
-                displaySubmissions();
-            }
-        }
-        
-        // Initialize the page
-        window.onload = function() {
-            displaySubmissions();
-        };
-    </script>
+    
+    <footer>
+        &copy; 2025 Diyora | Dong-A University
+    </footer>
 </body>
 </html>
